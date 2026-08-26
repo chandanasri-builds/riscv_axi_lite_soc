@@ -26,7 +26,7 @@ The main functional path is:
                   +---------+  +-----+-----+
                                      |
                                   UART TX/RX
-
+```
 
 
 ##Main Features
