@@ -8,7 +8,7 @@ The project demonstrates a complete digital-design flow from RISC-V firmware exe
 
 The main functional path is:
 
-`
+```text
                     +------------------+
                     |    PicoRV32      |
                     |   RISC-V CPU     |
