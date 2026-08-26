@@ -28,7 +28,7 @@ The main functional path is:
                                   UART TX/RX
 ```
 
-
+```
 ##Main Features
 
 --Open-source PicoRV32 RISC-V CPU integration
@@ -42,8 +42,8 @@ The main functional path is:
 --Yosys RTL synthesis
 --Synthesized netlist and schematic generation
 --OpenLane / OpenROAD physical-design exploration using SKY130A
-
-
+```
+```
 ##Architecture
 
 The SoC contains the following major blocks:
@@ -57,7 +57,7 @@ The SoC contains the following major blocks:
 | `uart_rx.v`          | UART receiver                                        |
 | `picorv32a.v`        | Open-source PicoRV32 RISC-V CPU core                 |
 
-
+```
 ##Memory Map
 
 | Address             | Function                 |
@@ -66,7 +66,8 @@ The SoC contains the following major blocks:
 | `0x10000000`        | UART TX register         |
 | `0x10000004`        | UART RX data register    |
 | `0x10000008`        | UART status register     |
-
+```
+```
 The interconnect uses the upper address bits to distinguish the major regions.
 
 For example:
@@ -74,7 +75,8 @@ assign addr_is_ram  = (m_awaddr[31:28] == 4'h0);
 assign addr_is_uart = (m_awaddr[31:28] == 4'h1);
 Therefore, an address such as 0x10000000 is identified as a UART transaction.
 
-
+```
+```
 ##Firmware Demonstration
 
 The firmware performs a memory-mapped write to the UART transmit register:
@@ -98,7 +100,8 @@ uart_test_words.hex
 AXI RAM initialization
     ↓
 PicoRV32 executes firmware
-
+```
+```
 
 ##Verification
 
@@ -136,7 +139,7 @@ AXI Interconnect
 AXI UART
       ↓
 UART TX
-
+```
 
 ##Waveform Analysis
 
