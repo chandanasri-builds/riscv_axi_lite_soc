@@ -27,7 +27,7 @@ The main functional path is:
                                      |
                                   UART TX/RX
 
-Main Features
+##Main Features
 Open-source PicoRV32 RISC-V CPU integration
 AXI-Lite based SoC interconnect
 Memory-mapped AXI RAM
@@ -52,7 +52,7 @@ The SoC contains the following major blocks:
 | `uart_rx.v`          | UART receiver                                        |
 | `picorv32a.v`        | Open-source PicoRV32 RISC-V CPU core                 |
 
-Memory Map
+##Memory Map
 
 | Address             | Function                 |
 | ------------------- | ------------------------ |
@@ -70,7 +70,8 @@ assign addr_is_uart = (m_awaddr[31:28] == 4'h1);
 
 Therefore, an address such as 0x10000000 is identified as a UART transaction.
 
-Firmware Demonstration
+
+##Firmware Demonstration
 
 The firmware performs a memory-mapped write to the UART transmit register:
 
@@ -82,7 +83,8 @@ The firmware performs a memory-mapped write to the UART transmit register:
 
 The firmware was compiled for RV32I and converted into a word-oriented hexadecimal memory image used to initialize the RAM.
 
-Firmware Flow
+
+##Firmware Flow
 uart_test.c
     ↓
 RISC-V GCC
@@ -96,7 +98,9 @@ uart_test_words.hex
 AXI RAM initialization
     ↓
 PicoRV32 executes firmware
-Verification
+
+
+##Verification
 
 Verification was performed at both module and complete-SoC levels.
 
@@ -132,7 +136,9 @@ AXI Interconnect
 AXI UART
       ↓
 UART TX
-Waveform Analysis
+
+
+##Waveform Analysis
 
 GTKWave was used to inspect:
 
@@ -145,7 +151,8 @@ UART serial tx waveform
 
 The waveform confirms that the CPU-generated write to 0x10000000 carries 0x00000041 and results in UART transmission.
 
-Yosys Synthesis
+
+##Yosys Synthesis
 
 The RTL was synthesized using Yosys.
 
@@ -161,14 +168,16 @@ axi_interconnect	73
 
 The current RAM implementation dominates the generic cell count because the memory is represented using standard-cell sequential and multiplexing logic rather than a dedicated SRAM macro.
 
-Generated synthesis artifacts include:
+##Generated synthesis artifacts include:
 
 synthesis/soc_synth.v
 synthesis/synth.log
 synthesis/synth.ys
 synthesis/axi_interconnect.svg
 synthesis/soc_top.svg
-ASIC Physical-Design Exploration
+
+
+##ASIC Physical-Design Exploration
 
 The design was taken through the OpenLane flow using:
 
@@ -176,6 +185,7 @@ OpenLane v1.0.2
 OpenROAD
 SKY130A PDK
 sky130_fd_sc_hd standard-cell library
+
 Stages Reached
 RTL Design
     ↓
@@ -203,7 +213,7 @@ Final GDS               Not generated
 
 The OpenLane run successfully progressed through CTS. The routing stage stopped because of high routing congestion.
 
-Routing Limitation
+#Routing Limitation
 
 The generic synthesis showed approximately 70,933 cells for axi_ram, including approximately:
 
@@ -218,7 +228,8 @@ Routing congestion too high
 
 This is an implementation limitation of the current architecture, not a functional failure of the SoC.
 
-Future Improvements
+
+##Future Improvements
 
 Possible future improvements include:
 
@@ -228,7 +239,9 @@ Optimize floorplan/utilization for improved routability
 Complete routing and physical signoff
 Generate final routed GDS after memory/physical-design optimization
 Extend firmware tests and add additional peripherals
-Tools Used
+
+
+##Tools Used
 Verilog
 RISC-V
 AXI / AXI-Lite
