@@ -43,10 +43,11 @@ The main functional path is:
 --Synthesized netlist and schematic generation
 --OpenLane / OpenROAD physical-design exploration using SKY130A
 ```
-```
+
 ##Architecture
 
 The SoC contains the following major blocks:
+```
 | Module               | Description                                          |
 | -------------------- | ---------------------------------------------------- |
 | `soc_top.v`          | Top-level SoC integration                            |
@@ -58,7 +59,9 @@ The SoC contains the following major blocks:
 | `picorv32a.v`        | Open-source PicoRV32 RISC-V CPU core                 |
 
 ```
+
 ##Memory Map
+```
 
 | Address             | Function                 |
 | ------------------- | ------------------------ |
@@ -66,8 +69,7 @@ The SoC contains the following major blocks:
 | `0x10000000`        | UART TX register         |
 | `0x10000004`        | UART RX data register    |
 | `0x10000008`        | UART status register     |
-```
-```
+
 The interconnect uses the upper address bits to distinguish the major regions.
 
 For example:
@@ -76,9 +78,9 @@ assign addr_is_uart = (m_awaddr[31:28] == 4'h1);
 Therefore, an address such as 0x10000000 is identified as a UART transaction.
 
 ```
-```
-##Firmware Demonstration
 
+##Firmware Demonstration
+```
 The firmware performs a memory-mapped write to the UART transmit register:
 #define UART_TX 0x10000000
 *(volatile unsigned int *)UART_TX = 0x41;
@@ -101,10 +103,10 @@ AXI RAM initialization
     ↓
 PicoRV32 executes firmware
 ```
-```
+
 
 ##Verification
-
+```
 Verification was performed at both module and complete-SoC levels.
 
 Testbenches
@@ -114,7 +116,8 @@ tb_axi_uart.v — AXI UART verification
 tb_axi_ram.v — AXI RAM read/write verification
 tb_axi.v — AXI interconnect verification
 tb_soc.v — complete CPU-to-AXI-to-UART SoC verification
-Complete SoC Result
+```
+```Complete SoC Result
 
 The final SoC simulation demonstrated:
 
@@ -142,7 +145,7 @@ UART TX
 ```
 
 ##Waveform Analysis
-
+```
 GTKWave was used to inspect:
 
 CPU AXI write-address handshake
@@ -153,10 +156,10 @@ UART tx_busy
 UART serial tx waveform
 
 The waveform confirms that the CPU-generated write to 0x10000000 carries 0x00000041 and results in UART transmission.
-
+```
 
 ##Yosys Synthesis
-
+```
 The RTL was synthesized using Yosys.
 
 Observed generic synthesis results:
@@ -170,18 +173,18 @@ uart_tx	258
 axi_interconnect	73
 
 The current RAM implementation dominates the generic cell count because the memory is represented using standard-cell sequential and multiplexing logic rather than a dedicated SRAM macro.
-
+```
 ##Generated synthesis artifacts include:
-
+```
 synthesis/soc_synth.v
 synthesis/synth.log
 synthesis/synth.ys
 synthesis/axi_interconnect.svg
 synthesis/soc_top.svg
-
+```
 
 ##ASIC Physical-Design Exploration
-
+```
 The design was taken through the OpenLane flow using:
 
 OpenLane v1.0.2
@@ -215,10 +218,10 @@ Routing                 ✗ High Congestion
 Final GDS               Not generated
 
 The OpenLane run successfully progressed through CTS. The routing stage stopped because of high routing congestion.
-
+```
 
 #Routing Limitation
-
+```
 The generic synthesis showed approximately 70,933 cells for axi_ram, including approximately:
 32,768 flip-flops
 32,840 multiplexers
@@ -226,10 +229,10 @@ Implementing the RAM as standard-cell logic creates significant placement and ro
 The OpenLane run reported approximately 1,045,011 final vias before reporting:
 Routing congestion too high
 This is an implementation limitation of the current architecture, not a functional failure of the SoC.
-
+```
 
 ##Future Improvements
-
+```
 #Possible future improvements include:
 --Replace the register-based RAM with an appropriate SRAM macro
 --Reduce memory size for a smaller demonstration implementation
@@ -237,9 +240,10 @@ This is an implementation limitation of the current architecture, not a function
 --Complete routing and physical signoff
 --Generate final routed GDS after memory/physical-design optimization
 --Extend firmware tests and add additional peripherals
-
+```
 
 ##Tools Used
+```
 Verilog
 RISC-V
 AXI / AXI-Lite
@@ -250,5 +254,5 @@ Yosys
 OpenLane
 OpenROAD
 SKY130A PDK
-
+```
 
