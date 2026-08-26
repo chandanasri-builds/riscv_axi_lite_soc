@@ -8,7 +8,7 @@ The project demonstrates a complete digital-design flow from RISC-V firmware exe
 
 The main functional path is:
 
-```text
+`
                     +------------------+
                     |    PicoRV32      |
                     |   RISC-V CPU     |
@@ -27,19 +27,24 @@ The main functional path is:
                                      |
                                   UART TX/RX
 
+
+
 ##Main Features
-Open-source PicoRV32 RISC-V CPU integration
-AXI-Lite based SoC interconnect
-Memory-mapped AXI RAM
-AXI-connected UART TX/RX
-Address decoding for RAM and UART regions
-RISC-V firmware-driven UART transmission
-Verilator functional verification
-GTKWave waveform analysis
-Yosys RTL synthesis
-Synthesized netlist and schematic generation
-OpenLane / OpenROAD physical-design exploration using SKY130A
-Architecture
+
+--Open-source PicoRV32 RISC-V CPU integration
+--AXI-Lite based SoC interconnect
+--Memory-mapped AXI RAM
+--AXI-connected UART TX/RX
+--Address decoding for RAM and UART regions
+--RISC-V firmware-driven UART transmission
+--Verilator functional verification
+--GTKWave waveform analysis
+--Yosys RTL synthesis
+--Synthesized netlist and schematic generation
+--OpenLane / OpenROAD physical-design exploration using SKY130A
+
+
+##Architecture
 
 The SoC contains the following major blocks:
 | Module               | Description                                          |
@@ -51,6 +56,7 @@ The SoC contains the following major blocks:
 | `uart_tx.v`          | UART transmitter                                     |
 | `uart_rx.v`          | UART receiver                                        |
 | `picorv32a.v`        | Open-source PicoRV32 RISC-V CPU core                 |
+
 
 ##Memory Map
 
@@ -64,23 +70,17 @@ The SoC contains the following major blocks:
 The interconnect uses the upper address bits to distinguish the major regions.
 
 For example:
-
 assign addr_is_ram  = (m_awaddr[31:28] == 4'h0);
 assign addr_is_uart = (m_awaddr[31:28] == 4'h1);
-
 Therefore, an address such as 0x10000000 is identified as a UART transaction.
 
 
 ##Firmware Demonstration
 
 The firmware performs a memory-mapped write to the UART transmit register:
-
 #define UART_TX 0x10000000
-
 *(volatile unsigned int *)UART_TX = 0x41;
-
 0x41 corresponds to the ASCII character A.
-
 The firmware was compiled for RV32I and converted into a word-oriented hexadecimal memory image used to initialize the RAM.
 
 
@@ -186,7 +186,7 @@ OpenROAD
 SKY130A PDK
 sky130_fd_sc_hd standard-cell library
 
-Stages Reached
+#Stages Reached
 RTL Design
     ↓
 Synthesis               ✓
@@ -213,32 +213,27 @@ Final GDS               Not generated
 
 The OpenLane run successfully progressed through CTS. The routing stage stopped because of high routing congestion.
 
+
 #Routing Limitation
 
 The generic synthesis showed approximately 70,933 cells for axi_ram, including approximately:
-
 32,768 flip-flops
 32,840 multiplexers
-
 Implementing the RAM as standard-cell logic creates significant placement and routing demand.
-
 The OpenLane run reported approximately 1,045,011 final vias before reporting:
-
 Routing congestion too high
-
 This is an implementation limitation of the current architecture, not a functional failure of the SoC.
 
 
 ##Future Improvements
 
-Possible future improvements include:
-
-Replace the register-based RAM with an appropriate SRAM macro
-Reduce memory size for a smaller demonstration implementation
-Optimize floorplan/utilization for improved routability
-Complete routing and physical signoff
-Generate final routed GDS after memory/physical-design optimization
-Extend firmware tests and add additional peripherals
+#Possible future improvements include:
+--Replace the register-based RAM with an appropriate SRAM macro
+--Reduce memory size for a smaller demonstration implementation
+--Optimize floorplan/utilization for improved routability
+--Complete routing and physical signoff
+--Generate final routed GDS after memory/physical-design optimization
+--Extend firmware tests and add additional peripherals
 
 
 ##Tools Used
