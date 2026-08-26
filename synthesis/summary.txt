@@ -1,0 +1,31 @@
+=== design hierarchy ===
+
+   soc_top                           1
+     $paramod$e42465b9e259ab0b6bc45fe1c5feb129e75f41e8\axi_uart      1
+       $paramod$e42465b9e259ab0b6bc45fe1c5feb129e75f41e8\uart_rx      1
+       $paramod$e42465b9e259ab0b6bc45fe1c5feb129e75f41e8\uart_tx      1
+     $paramod\picorv32_axi\PROGADDR_RESET=32'00000000000000000000000000000000      1
+       $paramod$6ce030db3796b28030d2721a573c1331c27d5357\picorv32      1
+       picorv32_axi_adapter          1
+     axi_interconnect                1
+     axi_ram                         1
+
+   Number of wires:               9910
+   Number of wire bits:          86955
+   Number of public wires:        1483
+   Number of public wire bits:   37495
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              81842
+     $_AND_                       7878
+     $_DFFE_PN_                      4
+     $_DFFE_PP_                  34013
+     $_DFF_P_                       84
+     $_MUX_                      36640
+     $_NOT_                        256
+     $_OR_                        1859
+     $_SDFFCE_PN0P_                 31
+     $_SDFFCE_PP0P_                  3
+     $_SDFFE_PN0N_                  62
+     $_SDFFE_PN0P_                 264

@@ -1,0 +1,20 @@
+read_verilog -sv ip/picorv32/picorv32a.v
+read_verilog rtl/axi_ram.v
+read_verilog rtl/uart_tx.v
+read_verilog rtl/uart_rx.v
+read_verilog rtl/axi_uart.v 
+read_verilog rtl/axi_interconnect.v
+read_verilog rtl/soc_top.v
+
+hierarchy -top soc_top
+
+proc
+opt
+memory
+opt
+techmap
+opt
+
+stat
+
+write_verilog -noattr synthesis/soc_synth.v

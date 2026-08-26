@@ -1,0 +1,6 @@
+obj_dir/
+*.vcd
+*.dot
+openlane/*/runs/
+openlane/*/issue_reproducible/
+*.log~

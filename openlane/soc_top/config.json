@@ -1,0 +1,23 @@
+{
+    "DESIGN_NAME": "soc_top",
+    "VERILOG_FILES": "dir::src/*.v",
+
+    "CLOCK_PORT": "clk",
+    "CLOCK_NET": "clk",
+    "CLOCK_PERIOD": 100,
+
+    "FP_CORE_UTIL": 30,
+    "GPL_CELL_PADDING": 2,
+    "DPL_CELL_PADDING": 2,
+
+    "GLB_RESIZER_TIMING_OPTIMIZATIONS": true,
+    "RUN_HEURISTIC_DIODE_INSERTION": true,
+    "DIODE_ON_PORTS": "in",
+
+    "pdk::sky130*": {
+        "MAX_FANOUT_CONSTRAINT": 6,
+        "scl::sky130_fd_sc_ms": {
+            "FP_CORE_UTIL": 25
+        }
+    }
+}
