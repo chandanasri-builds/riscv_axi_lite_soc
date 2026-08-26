@@ -28,9 +28,9 @@ The main functional path is:
                                   UART TX/RX
 ```
 
-```
-##Main Features
 
+##Main Features
+```
 --Open-source PicoRV32 RISC-V CPU integration
 --AXI-Lite based SoC interconnect
 --Memory-mapped AXI RAM
@@ -80,15 +80,19 @@ Therefore, an address such as 0x10000000 is identified as a UART transaction.
 ```
 
 ##Firmware Demonstration
-```
+
 The firmware performs a memory-mapped write to the UART transmit register:
+
 #define UART_TX 0x10000000
+
 *(volatile unsigned int *)UART_TX = 0x41;
+
 0x41 corresponds to the ASCII character A.
+
 The firmware was compiled for RV32I and converted into a word-oriented hexadecimal memory image used to initialize the RAM.
 
-
 ##Firmware Flow
+```
 uart_test.c
     ↓
 RISC-V GCC
@@ -106,9 +110,8 @@ PicoRV32 executes firmware
 
 
 ##Verification
-```
 Verification was performed at both module and complete-SoC levels.
-
+```
 Testbenches
 tb_uart_tx.v — UART transmitter verification
 tb_uart_rx.v — UART receiver verification
@@ -117,10 +120,11 @@ tb_axi_ram.v — AXI RAM read/write verification
 tb_axi.v — AXI interconnect verification
 tb_soc.v — complete CPU-to-AXI-to-UART SoC verification
 ```
-```Complete SoC Result
+
+#Complete SoC Result
 
 The final SoC simulation demonstrated:
-
+```
 DUT: AW HANDSHAKE addr=10000000
 DUT: W HANDSHAKE data=00000041
 UART TX STARTED.
@@ -145,9 +149,9 @@ UART TX
 ```
 
 ##Waveform Analysis
-```
-GTKWave was used to inspect:
 
+GTKWave was used to inspect:
+```
 CPU AXI write-address handshake
 CPU AXI write-data handshake
 Interconnect routing to UART
@@ -159,11 +163,11 @@ The waveform confirms that the CPU-generated write to 0x10000000 carries 0x00000
 ```
 
 ##Yosys Synthesis
-```
+
 The RTL was synthesized using Yosys.
 
 Observed generic synthesis results:
-
+```
 Module / Hierarchy	Cells
 Complete soc_top hierarchy	81,842
 axi_ram	70,933
@@ -174,6 +178,7 @@ axi_interconnect	73
 
 The current RAM implementation dominates the generic cell count because the memory is represented using standard-cell sequential and multiplexing logic rather than a dedicated SRAM macro.
 ```
+
 ##Generated synthesis artifacts include:
 ```
 synthesis/soc_synth.v
@@ -184,7 +189,7 @@ synthesis/soc_top.svg
 ```
 
 ##ASIC Physical-Design Exploration
-```
+
 The design was taken through the OpenLane flow using:
 
 OpenLane v1.0.2
@@ -193,6 +198,7 @@ SKY130A PDK
 sky130_fd_sc_hd standard-cell library
 
 #Stages Reached
+```
 RTL Design
     ↓
 Synthesis               ✓
@@ -232,8 +238,9 @@ This is an implementation limitation of the current architecture, not a function
 ```
 
 ##Future Improvements
-```
+
 #Possible future improvements include:
+```
 --Replace the register-based RAM with an appropriate SRAM macro
 --Reduce memory size for a smaller demonstration implementation
 --Optimize floorplan/utilization for improved routability
